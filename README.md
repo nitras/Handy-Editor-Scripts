@@ -24,13 +24,10 @@ the asset store. It helps growing this package with more features.
 
 Please check out my other assets:
 
-Handy Project Structure
 <a href="https://www.assetstore.unity3d.com/#!/content/68040?aid=1101lGsM">Handy Project Structure</a>
 
-Handy Tools — Useful Hierarchy Tools
 <a href="https://www.assetstore.unity3d.com/#!/content/44724?aid=1101lGsM">Handy Tools — Useful Hierarchy / Folder Structure / Instant Editor Scripts / Level Design Tools</a>
 
-Abstract Audio
 <a href="https://www.assetstore.unity3d.com/#!/content/49894?aid=1101lGsM">Abstract Audio</a>
 
 Thank you — Peter —
