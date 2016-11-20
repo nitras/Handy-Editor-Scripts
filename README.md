@@ -15,10 +15,12 @@ and the newly created editor script will written
 to that location.
 
 Existing Editor Folders or scripts won’t be overwritten.
-If you want please do rate and review this asset on
-the asset store. It helps growing this package
-with more features.
 
+This script is also available on the unity asset store.
+
+If you want please do rate and review this asset on
+the asset store. It helps growing this package with more features.
+https://www.assetstore.unity3d.com/en/#!/content/68123
 
 Please check out my other assets:
 
