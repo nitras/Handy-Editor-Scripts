@@ -28,7 +28,7 @@ Handy Project Structure
 https://www.assetstore.unity3d.com/#!/content/68040
 
 Handy Tools — Useful Hierarchy Tools
-https://www.assetstore.unity3d.com/en/#!/content/44724
+<a href="https://www.assetstore.unity3d.com/#!/content/44724?aid=1101lGsM">Handy Tools — Useful Hierarchy / Folder Structure / Instant Editor Scripts / Level Design Tools</a>
 
 Abstract Audio
 https://www.assetstore.unity3d.com/#!/content/49894
