@@ -20,18 +20,18 @@ This script is also available on the unity asset store.
 
 If you want please do rate and review this asset on
 the asset store. It helps growing this package with more features.
-https://www.assetstore.unity3d.com/en/#!/content/68123
+<a href="https://www.assetstore.unity3d.com/#!/content/68123?aid=1101lGsM">Handy Editor Scripts</a>
 
 Please check out my other assets:
 
 Handy Project Structure
-https://www.assetstore.unity3d.com/#!/content/68040
+<a href="https://www.assetstore.unity3d.com/#!/content/68040?aid=1101lGsM">Handy Project Structure</a>
 
 Handy Tools — Useful Hierarchy Tools
 <a href="https://www.assetstore.unity3d.com/#!/content/44724?aid=1101lGsM">Handy Tools — Useful Hierarchy / Folder Structure / Instant Editor Scripts / Level Design Tools</a>
 
 Abstract Audio
-https://www.assetstore.unity3d.com/#!/content/49894
+<a href="https://www.assetstore.unity3d.com/#!/content/49894?aid=1101lGsM">Abstract Audio</a>
 
 Thank you — Peter —
 www.nitras.be
