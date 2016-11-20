@@ -1,0 +1,208 @@
+using UnityEditor;
+using UnityEngine;
+using System.Collections;
+using System;
+using System.IO;
+using System.Text;
+
+/// <summary>
+/// Handy editor scripts creator.
+/// Developed by Peter Eeckelaert
+/// Available for freelance work (graphic - web and audio design)
+/// www.nitras.be
+/// Email me for support and/or suggestions at peter@nitras.be
+/// </summary>
+
+public class HandyEditorScriptsCreator : MonoBehaviour
+{
+
+	/// <summary>
+	/// The name of the script.
+	/// </summary>
+	private static string scriptName;
+	/// <summary>
+	/// The script path.
+	/// </summary>
+	private static string scriptPath;
+	/// <summary>
+	/// The script extension.
+	/// </summary>
+	private static string scriptExtension;
+	/// <summary>
+	/// The current path.
+	/// </summary>
+	private static string currentPath;
+	private static string editorScriptString;
+	private static StreamWriter outputFile;
+	private const int priorityLevel = 82;
+
+	/// <summary>
+	/// Init this instance.
+	/// </summary>
+	[MenuItem ("Assets/Create/Handy Editor Script", false, priorityLevel)]
+	static void Init ()
+	{
+		MonoScript selected = Selection.activeObject as MonoScript;
+
+		if (selected == null || selected.name.Length <= 0) {
+			Debug.Log ("Not a valid selection.");
+			return;
+		} else {
+			scriptName = selected.name;
+			scriptPath = AssetDatabase.GetAssetPath (selected);
+			scriptExtension = Path.GetExtension (scriptPath);
+			currentPath = Path.GetDirectoryName (scriptPath);
+			if (Directory.Exists (currentPath + "/Editor")) {
+				CreateEditorScript (scriptName, scriptExtension);
+			} else {
+				CheckEditorScriptsFolder ();
+			}
+		}
+	}
+
+	/// <summary>
+	/// Validates the selection.
+	/// </summary>
+	/// <returns><c>true</c>, if selection was validated, <c>false</c> otherwise.</returns>
+	[MenuItem ("Assets/Create/Handy Editor Script", true, priorityLevel)]
+	static bool ValidateSelection ()
+	{
+		// Return false if no script is selected.
+		return Selection.activeObject as MonoScript != null;
+	}
+
+
+	/// <summary>
+	/// Checks for the scripts folder.
+	/// </summary>
+	static void CheckEditorScriptsFolder ()
+	{
+		if (Directory.Exists (currentPath)) {
+			if (!Directory.Exists (currentPath + "/Editor")) {
+				AssetDatabase.CreateFolder (currentPath, "Editor");
+			} else {
+				return;
+			}
+		}
+		CreateEditorScript (scriptName, scriptExtension);
+	}
+
+
+	/// <summary>
+	/// Creates the editor script.
+	/// </summary>
+	/// <param name="_scriptName">Script name.</param>
+	/// <param name="_extension">Extension.</param>
+	static void CreateEditorScript (string _scriptName, string _extension)
+	{
+		if (_extension == ".cs") {
+			editorScriptString = currentPath + "/Editor/" + scriptName + "Editor" + ".cs";
+			if (!File.Exists (editorScriptString)) {
+				Write_C_EditorScript (editorScriptString);
+			} else {
+				Debug.Log (scriptName + "Editor script already exists.");
+			}
+		} else if (_extension == ".js") {
+			editorScriptString = currentPath + "/Editor/" + scriptName + "Editor" + ".js";
+			if (!File.Exists (editorScriptString)) {
+				Write_JS_EditorScript (editorScriptString);
+			} else {
+				Debug.Log (scriptName + "Editor script already exists.");
+			}
+		} else if (_extension == ".boo") {
+			editorScriptString = currentPath + "/Editor/" + scriptName + "Editor" + ".boo";
+			if (!File.Exists (editorScriptString)) {
+				Write_BOO_EditorScript (editorScriptString);
+			} else {
+				Debug.Log (scriptName + "Editor script already exists.");
+			}
+		}
+	}
+
+	/// <summary>
+	/// Writes the C# editor script.
+	/// </summary>
+	/// <param name="_newEditorScriptString">New editor script string.</param>
+	static void Write_C_EditorScript (string _newEditorScriptString)
+	{
+		if (File.Exists (_newEditorScriptString) == false) { 
+			//do not overwrite if the file exists
+			using (outputFile = new StreamWriter (_newEditorScriptString)) {
+				outputFile.WriteLine ("using UnityEditor;");
+				outputFile.WriteLine ("using UnityEngine;");
+				outputFile.WriteLine ("using System.Collections;");
+				outputFile.WriteLine ("");
+				outputFile.WriteLine ("[CustomEditor (typeof(" + scriptName + "))]");
+				outputFile.WriteLine ("public class " + scriptName + "Editor" + " : Editor");
+				outputFile.WriteLine ("{");
+				outputFile.WriteLine (" ");
+				outputFile.WriteLine ("\t" + scriptName + " _target;");
+				outputFile.WriteLine (" ");
+				outputFile.WriteLine ("\tpublic override void OnInspectorGUI ()");
+				outputFile.WriteLine ("\t{");
+				outputFile.WriteLine (" ");
+				outputFile.WriteLine ("\t\t" + "_target = (" + scriptName + ")target;");
+				outputFile.WriteLine (" \t\t//DrawDefaultInspector();");
+				outputFile.WriteLine (" ");
+				outputFile.WriteLine (" \t}");       
+				outputFile.WriteLine ("}");
+			}
+		}
+		Debug.Log (scriptName + "Editor" + " has been created.");
+		AssetDatabase.Refresh ();
+	}
+
+	/// <summary>
+	/// Writes the Javascript editor script.
+	/// </summary>
+	/// <param name="_newEditorScriptString">New editor script string.</param>
+	static void Write_JS_EditorScript (string _newEditorScriptString)
+	{
+		if (File.Exists (_newEditorScriptString) == false) { 
+			//do not overwrite if the file exists
+			using (outputFile = new StreamWriter (_newEditorScriptString)) {
+				outputFile.WriteLine ("#pragma strict");
+				outputFile.WriteLine ("");
+				outputFile.WriteLine ("@CustomEditor(" + scriptName + ")");
+				outputFile.WriteLine ("class " + scriptName + "Editor" + " extends Editor");
+				outputFile.WriteLine ("{");
+				outputFile.WriteLine (" ");
+				outputFile.WriteLine ("\tfunction OnInspectorGUI ()");
+				outputFile.WriteLine ("\t{");
+				outputFile.WriteLine (" "); //var myLevelScript : LevelScript = target;
+				outputFile.WriteLine ("\t" + "var _target : " + scriptName + " = target;");
+				outputFile.WriteLine (" \t\t//DrawDefaultInspector();");
+				outputFile.WriteLine (" ");
+				outputFile.WriteLine (" \t}");       
+				outputFile.WriteLine ("}");
+			}
+		}
+		Debug.Log (scriptName + "Editor" + " has been created.");
+		AssetDatabase.Refresh ();
+	}
+
+	/// <summary>
+	/// Writes the BOO editor script.
+	/// </summary>
+	/// <param name="_newEditorScriptString">New editor script string.</param>
+	static void Write_BOO_EditorScript (string _newEditorScriptString)
+	{
+		if (File.Exists (_newEditorScriptString) == false) { 
+			//do not overwrite if the file exists
+			using (outputFile = new StreamWriter (_newEditorScriptString)) {
+				outputFile.WriteLine ("import UnityEditor;");
+				outputFile.WriteLine ("import UnityEngine;");
+				outputFile.WriteLine ("import System.Collections;");
+				outputFile.WriteLine ("");
+				outputFile.WriteLine ("[CustomEditor (typeof(" + scriptName + "))]");
+				outputFile.WriteLine ("public class " + scriptName + "Editor (Editor):");
+				outputFile.WriteLine (" ");
+				outputFile.WriteLine ("\tpublic override def OnInspectorGUI ():");
+				outputFile.WriteLine ("\t\t" + "_target = (target cast " + scriptName + ")");
+				outputFile.WriteLine (" \t\t//DrawDefaultInspector()");
+			}
+		}
+		Debug.Log (scriptName + "Editor" + " has been created.");
+		AssetDatabase.Refresh ();
+	}
+}
